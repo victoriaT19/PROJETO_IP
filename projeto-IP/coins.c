@@ -32,7 +32,7 @@ void generateCoins(Platform *platforms, int numPlatforms){
     int CoinY;
     for(int i=0;i<numPlatforms;i++){
         //CHANCE DE 20%
-        if(GetRandomValue(0,100)<20){
+        if(GetRandomValue(0,100)<20 && !(platforms[i].isMoving)){
           CoinX= platforms[i].platformHitbox.x -5 ;
           CoinY = platforms[i].platformHitbox.y-50;
         
