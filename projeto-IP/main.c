@@ -7,6 +7,12 @@
 
 #include "gamewin.h"
 
+void drawScore(Player player){
+    char Scoretext[20];
+    sprintf(Scoretext, "Score: %d", player.playerScore);
+    DrawText(Scoretext, 10, 10, 20, BLACK);
+}
+
 int main()
 {
     // INICIALIZANDO TELA DO JOGO
@@ -31,6 +37,9 @@ int main()
     Platform platforms[PLATFORMS_NUMBER];
     Texture2D platformText = LoadTexture("assets/PlatformPlaceHolder.png");
     generatePlatforms(platforms);
+    CreateMovingPlatforms(platforms, PLATFORMS_NUMBER);
+    
+
 
     // INICIALIZANDO A CAMERA
     Camera2D camera;
@@ -50,12 +59,16 @@ int main()
         movePlayer(&player);
         playerJump(&player, platforms);
 
+        // plataformas moveis
+        movePlatforms(platforms, PLATFORMS_NUMBER);
+
         // Atualizar posição da câmera para seguir o jogador
         camera.target.y = player.playerPos.y;
 
         // COMEÇANDO A DESENHAR COISAS NA TELA
         BeginDrawing();
         ClearBackground(BLUE);
+        drawScore(player);
         BeginMode2D(camera); // desenha camera
 
         // Desenhar as plataformas com a textura
