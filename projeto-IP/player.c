@@ -4,6 +4,15 @@
 #include "collision.h"
 #include "platform.h"
 
+void drawScore(Player player){
+    char Scoretext[20];
+    sprintf(Scoretext, "Score: %d", player.playerScore);
+    DrawText(Scoretext, 10, 10, 20, BLACK);
+}
+
+void drawPlayer(Player player){
+     DrawTexture(player.playerText, player.playerHitbox.x, player.playerHitbox.y, WHITE);
+}
 void movePlayer(Player *player)
 {
     // MOVIMENTOS DO JOGADOR
@@ -44,7 +53,6 @@ void playerJump(Player *player, Platform *platforms)
         player->isJumping = true;
         player->playerSpeed = jumpSpeed; // Define a velocidade inicial do pulo
     }
-
     if (player->isJumping)
     {
         // Aplica a velocidade do pulo ao jogador
@@ -68,3 +76,39 @@ void playerJump(Player *player, Platform *platforms)
     // Atualiza a posição da hitbox do jogador
     player->playerHitbox.y = player->playerPos.y;
 }
+
+//FUNCAO PARA PLATFORMAS ESPECIAIS
+void playerPwrJump(Player *player, Platform *platforms)
+{   
+    const float jumpSpeedNormal = 18.0f;
+    const float jumpSpeedSpecial = 22.0f;
+    bool isOnSpecialPlatform = playerOnSpecialPlatform(&player, platforms);
+
+    if (isOnSpecialPlatform && !player->isJumping) {
+        player->isJumping = true;
+        player->playerSpeed = jumpSpeedSpecial; // Define a velocidade inicial do pulo
+    }
+
+    if (player->isJumping) {
+        // Aplica a velocidade do pulo ao jogador
+        player->playerPos.y -= player->playerSpeed;
+
+        // Aplica a gravidade para diminuir a velocidade do pulo ao longo do tempo
+        player->playerSpeed -= (GRAVITY/6+0.1);
+
+        // Verifica se o jogador atingiu o ponto mais alto do pulo
+        if (player->playerSpeed <= 0) {
+            player->isJumping = false;
+        }
+    } else {
+        // Se não estiver em uma plataforma especial, usa a velocidade normal do pulo
+        player->playerSpeed = jumpSpeedNormal;
+    }
+}
+
+
+
+
+   
+  
+  
