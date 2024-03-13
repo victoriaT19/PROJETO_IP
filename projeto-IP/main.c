@@ -7,11 +7,6 @@
 
 #include "gamewin.h"
 
-void drawScore(Player player){
-    char Scoretext[20];
-    sprintf(Scoretext, "Score: %d", player.playerScore);
-    DrawText(Scoretext, 10, 10, 20, BLACK);
-}
 
 int main()
 {
@@ -35,10 +30,11 @@ int main()
 
     //INICIALIZANDO PLATAFORMAS
     Platform platforms[PLATFORMS_NUMBER];
-    Texture2D platformText = LoadTexture("assets/PlatformPlaceHolder.png");
+    Texture2D platformText = LoadTexture("assets/darkBluePlatform.png");
+    Texture2D specialPlatformText= LoadTexture("assets/blueSpecialPlatform.png");
     generatePlatforms(platforms);
     CreateMovingPlatforms(platforms, PLATFORMS_NUMBER);
-    
+    CreateSpecialPlatforms(platforms,PLATFORMS_NUMBER);
 
 
     // INICIALIZANDO A CAMERA
@@ -61,6 +57,9 @@ int main()
 
         // plataformas moveis
         movePlatforms(platforms, PLATFORMS_NUMBER);
+        
+        //plataformas pwrjump
+        playerPwrJump(&player,platforms);
 
         // Atualizar posição da câmera para seguir o jogador
         camera.target.y = player.playerPos.y;
@@ -73,11 +72,15 @@ int main()
 
         // Desenhar as plataformas com a textura
         for (int i = 0; i < PLATFORMS_NUMBER; i++)
-        {
+        {   if(platforms[i].isSpecial){
+             DrawTexture(specialPlatformText, platforms[i].platformHitbox.x, platforms[i].platformHitbox.y, WHITE);
+            }
+            else{
             DrawTexture(platformText, platforms[i].platformHitbox.x, platforms[i].platformHitbox.y, WHITE);
+            }
         }
         // DESENHAR O PLAYER
-        DrawTexture(player.playerText, player.playerHitbox.x, player.playerHitbox.y, WHITE);
+        drawPlayer(player);
         
         //DESENHAR AS MOEDAS
         drawCoins();
@@ -95,10 +98,17 @@ int main()
            GameOver(screenWidth,screenHeight);
            CloseWindow();
         }
+       //
+         
         //JOGADOR GANHOU(SCORE=10- PD MUDAR ISSO DPS)
-        
-        playeronCoin(&player,coins);
-        if(player.playerScore>=10){
+         for (int i = 0; i < PLATFORMS_NUMBER; i++){
+            if( playeronCoin(&player,platforms)) {
+                player.playerScore++;
+                break;
+                
+            }
+         }
+        if(player.playerScore>=1000){
             UnloadTexture(player.playerText);
             UnloadTexture(platformText);
             UnloadTexture(coins->coinText);
@@ -115,4 +125,3 @@ int main()
     
     return 0;
 }
-
