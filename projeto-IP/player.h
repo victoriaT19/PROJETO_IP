@@ -16,7 +16,9 @@ typedef struct
     int playerScore;
 } Player;
 
-
+void drawScore(Player player);
+void drawPlayer(Player player);
+void playerPwrJump(Player *player, Platform *platforms);
 void movePlayer(Player *player);
 void playerJump(Player *player, Platform *platforms);
 
