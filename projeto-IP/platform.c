@@ -1,6 +1,8 @@
 #include "raylib.h"
 #include "platform.h"
 
+
+
 void generatePlatforms(Platform *platforms)
 {
     int maxPlatformHeight = 1000;
@@ -8,6 +10,8 @@ void generatePlatforms(Platform *platforms)
     {
         Rectangle tempRandomPlatform = { GetRandomValue(0, 600), maxPlatformHeight -= 50, 50, 10};
         platforms[i].platformHitbox = tempRandomPlatform;
+        platforms[i].coin_platform=false;
+        platforms[i].isSpecial= false;
     }
 }
 // TORNAR ALGUMAS PLATAFORMAS MOVEIS
@@ -48,22 +52,15 @@ void movePlatforms(Platform *platforms, int numPlatforms)
         }
     }
 }
+//TORNAR ALGUMAS PLATAFORMAS ESPECIAIS(PWR-UPS)
+void CreateSpecialPlatforms(Platform *platforms, int numPlatforms){
+    for (int i = 0; i < numPlatforms; i++)
+    {  
+        if(GetRandomValue(0,100)<20){
+            platforms[i].isSpecial = true; 
 
-/*void generatePlatforms(Platform *platforms)
-{
-    int maxPlatformHeight = 1000;
-    int i = 0; 
-
-        for(i;i<=PLATFORMS_NUMBER;i++){ 
-            Rectangle tempRandomPlatform = { GetRandomValue(0, 600), maxPlatformHeight -= 50, 50, 10};
-            platforms[i].platformHitbox = tempRandomPlatform;
-
-            if (i >= PLATFORMS_NUMBER) // Resetar o contador se exceder o número máximo de plataformas
-             {
-                i = 0; // restart
-            }
         }
     }
-*/
-
+    
+}
 
