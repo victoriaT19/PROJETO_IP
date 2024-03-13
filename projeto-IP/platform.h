@@ -14,11 +14,15 @@ typedef struct
     Vector2 platformPos;
     Rectangle platformHitbox;
     Vector2 platformSpeed;
+    bool coin_platform;
     bool isMoving;
+    bool isSpecial;
 } Platform;
 
 void generatePlatforms(Platform *platforms);
 void CreateMovingPlatforms(Platform *platforms, int numPlatforms);
 void movePlatforms(Platform *platforms, int numPlatforms);
+void CreateSpecialPlatforms(Platform *platforms, int numPlatforms);
+
 
 #endif
