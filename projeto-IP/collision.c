@@ -17,15 +17,31 @@ bool playerOnPlatform(Player **player, Platform *platforms)
     return false;
 }
 
+
+bool playerOnSpecialPlatform(Player **player, Platform *platforms)
+{
+    for (int i = 0; i < PLATFORMS_NUMBER; i++)
+    {
+        if (platforms[i].isSpecial && CheckCollisionRecs((*(*player)).playerHitbox, platforms[i].platformHitbox))
+        {
+            // SE TIVER RETORNAR VERDADEIRO
+            return true;
+        }
+    }
+    return false;
+}
+
+
+
 //FUNÇÃO PARA VERIFICAR SE O PLAYER ENCONTRA A MOEDA
 
-bool checkCoinCollision(Player **player,Coin *coins){
-    for(int i=0;i<COIN_MAX;i++){
-        if(coins[i].coin_active){
-            if (CheckCollisionRecs((*(*player)).playerHitbox,coins[i].coinHitbox)){
-                 return true;
-             }
-        }
+bool checkCoinCollision(Player **player, Coin *coins) {
+    for (int i = 0; i < COIN_MAX; i++) {
+       // if (coins[i].coin_active) {
+            if (CheckCollisionRecs((*player)->playerHitbox, coins[i].coinHitbox)) {
+                return true;
+            }
+       // }
     }
     return false;
 }
