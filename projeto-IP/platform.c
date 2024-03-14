@@ -25,7 +25,6 @@ void generatePlatforms(Platform *platforms)
     {
         Rectangle tempRandomPlatform = { GetRandomValue(0, 600), maxPlatformHeight -= 50, 70, 10};
         platforms[i].platformHitbox = tempRandomPlatform;
-        platforms[i].coin_platform=false;
         platforms[i].isSpecial= false;
     }
 }
