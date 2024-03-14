@@ -176,6 +176,8 @@ int main()
     
     // DESCARREGANDO AS TEXTURAS E FECHANDO O JOGO
     closeGame();
+    UnloadTexture(menuText);
+    UnloadTexture(backgroundTexture);
     CloseWindow();
 
     return 0;
@@ -204,7 +206,7 @@ void drawGame()
     // DESENHAR O PLAYER
    
     drawPlayer(player);
-
+    UnloadTexture(backgameText);
     EndMode2D(); // termina a camera
 }
 
