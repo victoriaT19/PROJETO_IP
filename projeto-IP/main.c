@@ -52,9 +52,9 @@ int main()
     Texture2D nameText=LoadTexture("assets/EmptyButton.png");
     
     Button playButton;
-    createButton(&playButton, 200, 300, 200, 50, GREEN, "Play");
+    createButton(&playButton, 200, 300, 200, 50, GREEN, "PLAY");
     Button exitButton;
-    createButton(&exitButton, 200, 400, 200, 50, MAROON, "Sair");
+    createButton(&exitButton, 200, 400, 200, 50, MAROON, "EXIT");
     bool gameRunning = false;
 
     while (!WindowShouldClose())
