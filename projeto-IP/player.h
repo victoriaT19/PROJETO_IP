@@ -14,13 +14,14 @@ typedef struct
     Rectangle playerHitbox;
     bool isJumping;
     int playerScore;
+
 } Player;
 
 
 
 
 void initPlayer(Player *player);
-void drawTimer(double currentTime,double startTime);
+void drawTimer(double currentTime,double menuExitTime);
 void drawScore(Player player);
 void drawPlayer(Player player);
 void playerPwrJump(Player *player, Platform *platforms);
