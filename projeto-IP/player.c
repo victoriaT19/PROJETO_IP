@@ -9,6 +9,7 @@ const int screenWidth = 600;
 const int screenHeight = 800;
 Sound jumpSound;
 
+//FUNÇÃO PARA INICIALIZAR O PLAYER
 void initPlayer(Player *player){
     (*player).playerText = LoadTexture("assets/player.png");
     (*player).playerPos = (Vector2){screenWidth / 2, screenHeight / 2};
@@ -20,13 +21,20 @@ void initPlayer(Player *player){
     (*player).playerHitbox.width = (*player).playerText.width;   // largura da textura
     (*player).playerHitbox.height = (*player).playerText.height; // altura da textura
 }
+//FUNÇÃO PARA O TIMER
+void drawTimer(double currentTime,double startTime){
+     double elapsedTime=currentTime-startTime;
+     DrawText(TextFormat("Timer: %.2f",elapsedTime),10,35,20,BLACK);
+}
 
+//FUNÇÃO PARA O SCORE
 void drawScore(Player player){
     char Scoretext[20];
     sprintf(Scoretext, "Score: %d", player.playerScore);
     DrawText(Scoretext, 10, 10, 20, BLACK);
 }
 
+//FUNÇÃO PARA DESENHAR O PLAYER
 void drawPlayer(Player player){
      DrawTexture(player.playerText, player.playerHitbox.x, player.playerHitbox.y, WHITE);
 }
@@ -135,11 +143,33 @@ void playerPwrJump(Player *player, Platform *platforms)
     }
 }
 
+//FUNÇAO PARA VER SE TÁ NA PLATAFORMA
+bool playerPlat(Player *player,Platform *platforms) {
+    if(playerOnPlatform(&player,platforms)) {
+       return true;
+    }       
+   return false;
+    
+}
+
+//FUNÇÂO PARA ATT SCORE
+void playerAttScore(Player *player,Platform *platforms) {
+    for(int i=0;i<PLATFORMS_NUMBER;i++){
+        if(playerPlat(player, platforms)){
+            (*player).playerScore++;
+            break;
+        }
+    }
+}
+
 void unloadEffects(){
     UnloadSound(jumpSound);
 }
 
 
+   
+  
+  
    
   
   
