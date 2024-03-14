@@ -21,6 +21,7 @@ int main()
     const int screenHeight = 800;
     InitWindow(screenWidth, screenHeight, "JOGUINHO");
     SetTargetFPS(30);
+    double startTime=GetTime();
 
     // INICIALIZANDO PLAYER(tentar colocar em uma função depois)
     initPlayer(&player);
@@ -51,7 +52,7 @@ int main()
 
     while (!WindowShouldClose())
     {
-        
+        double currentTime=GetTime();
         // atualizar player
         movePlayer(&player);
         playerJump(&player, platforms);
@@ -70,20 +71,22 @@ int main()
 
         // COMEÇANDO A DESENHAR COISAS NA TELA
         BeginDrawing();
-        
+        drawTimer(currentTime,startTime);
         drawGame();
 
         // TERMINAR O DESENHO
         EndDrawing();
 
         //O JOGADOR PERDEU
-        if(player.playerHitbox.y>1200){
+        if(player.playerHitbox.y>1200||(currentTime-startTime)>30.0){
             closeGame();
             GameOver(screenWidth,screenHeight);
             CloseWindow();
         }
-         
-        if(player.playerScore>=1000){
+
+        //O JOGADOR GANHOU 
+        playerAttScore(&player, platforms);
+        if(player.playerScore>=100){
             
             closeGame();
             GameWin(screenWidth,screenHeight);
