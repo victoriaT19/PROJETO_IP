@@ -108,11 +108,11 @@ int main()
             }
             
             //Controles e Instruções
-            DrawText("Instruções:", 20, 615, 20, BLACK);
-            DrawText("Ajude o coelho Cacau a pular por plataformas de doces instáveis na \nfábrica de chocolate! Ele precisa fazer 100 pontos antes que o tempo \nde 30 segundos acabe", 20, 640, 15, BLACK);
-            DrawText("Controles:", 20, 690, 20, BLACK);
-            DrawText("-Aperte A ou <- para mover para esquerda", 20, 715, 15, BLACK);
-            DrawText("-Aperte D ou -> para mover para direita", 20, 735, 15, BLACK);
+            DrawText("Instruções:", 20, 575, 25, BLACK);
+            DrawText("Ajude o coelho Cacau a pular por plataformas de doces \ninstáveis na fábrica de chocolate! Ele precisa fazer 100 \npontos antes que o tempo de 30 segundos acabe!", 20, 615, 20, BLACK);
+            DrawText("Controles:", 20, 680, 25, BLACK);
+            DrawText("-Aperte A ou <- para mover para esquerda", 20, 715, 20, BLACK);
+            DrawText("-Aperte D ou -> para mover para direita", 20, 735, 20, BLACK);
 
             // Desenha os botões
             
