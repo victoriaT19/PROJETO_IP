@@ -21,9 +21,10 @@ void initPlayer(Player *player){
     (*player).playerHitbox.width = (*player).playerText.width;   // largura da textura
     (*player).playerHitbox.height = (*player).playerText.height; // altura da textura
 }
+
 //FUNÇÃO PARA O TIMER
-void drawTimer(double currentTime,double startTime){
-     double elapsedTime=currentTime-startTime;
+void drawTimer(double currentTime,double menuExitTime){
+     double elapsedTime=currentTime-menuExitTime;
      DrawText(TextFormat("Timer: %.2f",elapsedTime),10,35,20,BLACK);
 }
 
