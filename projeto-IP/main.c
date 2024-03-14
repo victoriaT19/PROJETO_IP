@@ -6,7 +6,6 @@
 #include "collision.h"
 #include "menu.h"
 #include "gameover.h"
-
 #include "gamewin.h"
 
 Music music;
@@ -24,7 +23,8 @@ int main()
     const int screenHeight = 800;
     InitWindow(screenWidth, screenHeight, "JOGUINHO");
     SetTargetFPS(30);
-    double startTime = GetTime();
+    double startTime=GetTime();
+    double menuExitTime=0.0;
 
     // INICIALIZANDO PLAYER(tentar colocar em uma função depois)
     initPlayer(&player);
@@ -56,12 +56,14 @@ int main()
 
     while (!WindowShouldClose())
     {
-        if (!gameRunning)
-        {
+       
+        if (!gameRunning){
+        
             // Verifica se o botão "Play" foi clicado
             if (isButtonClicked(&playButton))
             {
                 gameRunning = true;
+                menuExitTime=GetTime();
             }
 
             // Verifica se o botão "Sair" foi clicado
@@ -89,9 +91,22 @@ int main()
             {
                 exitButton.color = RED;
             }
+            
+            BeginDrawing();
+
+            ClearBackground(RAYWHITE);
+
+            // Desenha os botões
+            drawButton(&playButton);
+            drawButton(&exitButton);
+
+            EndDrawing();
+
         }
-        else
-        {
+        else {
+
+            double currentTime = GetTime();
+            
             // atualizar player
             movePlayer(&player);
             playerJump(&player, platforms);
@@ -107,45 +122,28 @@ int main()
 
             // Atualizar musica
             UpdateMusicStream(music);
-        }
-        // draw
-        if (!gameRunning)
-        {
 
-            BeginDrawing();
-
-            ClearBackground(RAYWHITE);
-
-            // Desenha os botões
-            drawButton(&playButton);
-            drawButton(&exitButton);
-
-            EndDrawing();
-        }
-        else
-        {
-            double currentTime = GetTime();
+       
+            
             // COMEÇANDO A DESENHAR COISAS NA TELA
             BeginDrawing();
-            drawTimer(currentTime, startTime);
+            drawTimer(currentTime,menuExitTime);
             drawGame();
 
             // TERMINAR O DESENHO
             EndDrawing();
 
             // O JOGADOR PERDEU
-            if (player.playerHitbox.y > 1200 || 
-            (currentTime - startTime) > 30.0)
+            if (player.playerHitbox.y > 1200||(currentTime-menuExitTime)>30.0)
             {
                 closeGame();
                 GameOver(screenWidth, screenHeight);
                 CloseWindow();
             }
-
+             
+            //O JOAGADOR GANHOU
             playerAttScore(&player, platforms);
-            
-            if (player.playerScore >= 1000)
-            {
+            if(player.playerScore>=100){
 
                 closeGame();
                 GameWin(screenWidth, screenHeight);
@@ -153,7 +151,7 @@ int main()
             }
         }
     }
-
+    
     // DESCARREGANDO AS TEXTURAS E FECHANDO O JOGO
     closeGame();
     CloseWindow();
@@ -171,6 +169,7 @@ void drawGame()
     drawPlatforms(platforms);
 
     // DESENHAR O PLAYER
+   
     drawPlayer(player);
 
     EndMode2D(); // termina a camera
@@ -186,3 +185,5 @@ void closeGame()
     UnloadTexture(platforms->platformText);
     UnloadTexture(platforms->specialPlatformText);
 }
+
+
