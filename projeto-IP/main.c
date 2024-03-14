@@ -46,7 +46,8 @@ int main()
     camera.target = player.playerPos;
     camera.rotation = 0.0f;
     camera.zoom = 1.0f;
-
+    
+   
     Texture2D backgroundTexture=LoadTexture("assets/sky_day.png");
     Texture2D menuText=LoadTexture("assets/MenuButton.png");
     
@@ -140,8 +141,8 @@ int main()
             
             // COMEÇANDO A DESENHAR COISAS NA TELA
             BeginDrawing();
-            drawTimer(currentTime,menuExitTime);
             drawGame();
+            drawTimer(currentTime,menuExitTime);
 
             // TERMINAR O DESENHO
             EndDrawing();
@@ -173,8 +174,19 @@ int main()
 }
 
 void drawGame()
-{
-    ClearBackground(BLUE);
+{ 
+   const int screenWidth = 600;
+   const int screenHeight = 800;
+    //Desenhar o background
+   Texture2D backgameText=LoadTexture("assets/background.png");
+   ClearBackground(RAYWHITE);
+   for (int x = 0; x < screenWidth; x += backgameText.width)
+    {
+        for (int y = 0; y < screenHeight; y += backgameText.height)
+            {
+                DrawTexture(backgameText, x, y, WHITE);
+            }
+    }
     drawScore(player);
     BeginMode2D(camera); // desenha camera
 
