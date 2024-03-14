@@ -21,7 +21,7 @@ int main()
     // INICIALIZANDO TELA DO JOGO
     const int screenWidth = 600;
     const int screenHeight = 800;
-    InitWindow(screenWidth, screenHeight, "JOGUINHO");
+    InitWindow(screenWidth, screenHeight, "BUNNY LEAP");
     SetTargetFPS(30);
     double menuExitTime=0.0;
 
@@ -49,7 +49,7 @@ int main()
     
    
     Texture2D backgroundTexture=LoadTexture("assets/sky_day.png");
-    Texture2D menuText=LoadTexture("assets/MenuButton.png");
+    Texture2D nameText=LoadTexture("assets/EmptyButton.png");
     
     Button playButton;
     createButton(&playButton, 200, 300, 200, 50, GREEN, "Play");
@@ -116,9 +116,14 @@ int main()
 
             // Desenha os botões
             
-            DrawTexturePro(menuText, (Rectangle){ 0, 0, menuText.width, menuText.height },
-                           (Rectangle){ screenWidth / 2 - menuText.width / 4, 50, menuText.width / 2, menuText.height / 2 }, 
+           DrawTexturePro(nameText, (Rectangle){ 0, 0, nameText.width, nameText.height },
+                           (Rectangle){ screenWidth / 2 - nameText.width / 4, screenHeight / 8, nameText.width / 2, nameText.height / 2 }, 
                            (Vector2){ 0, 0 }, 0, BLACK);
+
+            // Desenha o texto "MENU" centralizado na parte superior do menu
+            DrawText("BUNNY LEAP", screenWidth / 2 - MeasureText("BUNNY LEAP", 40) / 2, screenHeight/6, 40, BLACK);
+             
+            
             drawButton(&playButton);
             drawButton(&exitButton);
 
@@ -176,8 +181,9 @@ int main()
     
     // DESCARREGANDO AS TEXTURAS E FECHANDO O JOGO
     closeGame();
-    UnloadTexture(menuText);
+    UnloadTexture(nameText);
     UnloadTexture(backgroundTexture);
+
     CloseWindow();
 
     return 0;
@@ -220,5 +226,4 @@ void closeGame()
     UnloadTexture(platforms->platformText);
     UnloadTexture(platforms->specialPlatformText);
 }
-
 
