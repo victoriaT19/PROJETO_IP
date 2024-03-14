@@ -106,6 +106,14 @@ int main()
                     DrawTexture(backgroundTexture, x, y, WHITE);
                 }
             }
+            
+            //Controles e Instruções
+            DrawText("Instruções:", 20, 640, 20, WHITE);
+            DrawText("Seu objetivo é fazer 100 pontos antes que o timer meça 30 segundos", 20, 665, 15, WHITE);
+            DrawText("Controles:", 20, 690, 20, WHITE);
+            DrawText("-Aperte A ou <- para mover para esquerda", 20, 715, 15, WHITE);
+            DrawText("-Aperte D ou -> para mover para direita", 20, 735, 15, WHITE);
+
             // Desenha os botões
             
             DrawTexturePro(menuText, (Rectangle){ 0, 0, menuText.width, menuText.height },
