@@ -16,7 +16,6 @@ typedef struct
     Vector2 platformSpeed;
     Texture2D platformText;
     Texture2D specialPlatformText;
-    bool coin_platform;
     bool isMoving;
     bool isSpecial;
 } Platform;
