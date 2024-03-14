@@ -14,11 +14,15 @@ typedef struct
     Vector2 platformPos;
     Rectangle platformHitbox;
     Vector2 platformSpeed;
+    Texture2D platformText;
+    Texture2D specialPlatformText;
     bool coin_platform;
     bool isMoving;
     bool isSpecial;
 } Platform;
 
+void initPlatforms(Platform *platform);
+void drawPlatforms(Platform *platforms);
 void generatePlatforms(Platform *platforms);
 void CreateMovingPlatforms(Platform *platforms, int numPlatforms);
 void movePlatforms(Platform *platforms, int numPlatforms);

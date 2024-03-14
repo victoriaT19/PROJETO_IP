@@ -1,12 +1,18 @@
 #include "raylib.h"
 #include "player.h"
 #include "platform.h"
-#include "coins.h"
 #include "collision.h"
 #include "gameover.h"
 
 #include "gamewin.h"
 
+Music music;
+Player player;
+Platform platforms[PLATFORMS_NUMBER];
+Camera2D camera;
+
+void drawGame();
+void closeGame();
 
 int main()
 {
@@ -17,40 +23,35 @@ int main()
     SetTargetFPS(30);
 
     // INICIALIZANDO PLAYER(tentar colocar em uma função depois)
-    Player player;
-    player.playerText = LoadTexture("assets/player.png");
-    player.playerPos = (Vector2){screenWidth / 2, screenHeight / 2};
-    player.playerScore=0;
+    initPlayer(&player);
 
-    // Definindo a hitbox do jogador
-    player.playerHitbox.x = player.playerPos.x;
-    player.playerHitbox.y = player.playerPos.y;
-    player.playerHitbox.width = player.playerText.width;   // largura da textura
-    player.playerHitbox.height = player.playerText.height; // altura da textura
 
     //INICIALIZANDO PLATAFORMAS
-    Platform platforms[PLATFORMS_NUMBER];
-    Texture2D platformText = LoadTexture("assets/darkBluePlatform.png");
-    Texture2D specialPlatformText= LoadTexture("assets/blueSpecialPlatform.png");
     generatePlatforms(platforms);
+    initPlatforms(platforms);
     CreateMovingPlatforms(platforms, PLATFORMS_NUMBER);
     CreateSpecialPlatforms(platforms,PLATFORMS_NUMBER);
 
 
+    //INICIALIZANDO AUDIO
+    InitAudioDevice();
+    music = LoadMusicStream("assets/musiquinha.mp3");
+
+    // Configurações da música
+    PlayMusicStream(music); // Inicia a reprodução da música
+    SetMusicVolume(music, 0.5f); // Define o volume da música
+
+
     // INICIALIZANDO A CAMERA
-    Camera2D camera;
     camera.offset = (Vector2){300, 400};
     camera.target = player.playerPos;
     camera.rotation = 0.0f;
     camera.zoom = 1.0f;
     
-    // INICIALIZANDO AS MOEDAS
-    Coin coins[COIN_MAX];
-    inicializeCoins();
-    generateCoins(platforms,PLATFORMS_NUMBER);
 
     while (!WindowShouldClose())
     {
+        
         // atualizar player
         movePlayer(&player);
         playerJump(&player, platforms);
@@ -64,64 +65,59 @@ int main()
         // Atualizar posição da câmera para seguir o jogador
         camera.target.y = player.playerPos.y;
 
+        //Atualizar musica
+        UpdateMusicStream(music);
+
         // COMEÇANDO A DESENHAR COISAS NA TELA
         BeginDrawing();
-        ClearBackground(BLUE);
-        drawScore(player);
-        BeginMode2D(camera); // desenha camera
-
-        // Desenhar as plataformas com a textura
-        for (int i = 0; i < PLATFORMS_NUMBER; i++)
-        {   if(platforms[i].isSpecial){
-             DrawTexture(specialPlatformText, platforms[i].platformHitbox.x, platforms[i].platformHitbox.y, WHITE);
-            }
-            else{
-            DrawTexture(platformText, platforms[i].platformHitbox.x, platforms[i].platformHitbox.y, WHITE);
-            }
-        }
-        // DESENHAR O PLAYER
-        drawPlayer(player);
         
-        //DESENHAR AS MOEDAS
-        drawCoins();
+        drawGame();
 
-        EndMode2D(); // termina a camera
-       
         // TERMINAR O DESENHO
         EndDrawing();
 
         //O JOGADOR PERDEU
         if(player.playerHitbox.y>1200){
-           UnloadTexture(player.playerText);
-           UnloadTexture(platformText);
-           UnloadTexture(coins->coinText);
-           GameOver(screenWidth,screenHeight);
-           CloseWindow();
+            closeGame();
+            GameOver(screenWidth,screenHeight);
+            CloseWindow();
         }
-       //
          
-        //JOGADOR GANHOU(SCORE=10- PD MUDAR ISSO DPS)
-         for (int i = 0; i < PLATFORMS_NUMBER; i++){
-            if( playeronCoin(&player,platforms)) {
-                player.playerScore++;
-                break;
-                
-            }
-         }
         if(player.playerScore>=1000){
-            UnloadTexture(player.playerText);
-            UnloadTexture(platformText);
-            UnloadTexture(coins->coinText);
-            //MUDAR DPS O GAMEWIN PRA FICAR MAIS BONITO
+            
+            closeGame();
             GameWin(screenWidth,screenHeight);
             CloseWindow();
         }
     }
     // DESCARREGANDO AS TEXTURAS E FECHANDO O JOGO
-    UnloadTexture(player.playerText);
-    UnloadTexture(platformText);
-    UnloadTexture(coins->coinText);
+    closeGame();
     CloseWindow();
     
     return 0;
+}
+
+void drawGame(){
+    ClearBackground(BLUE);
+    drawScore(player);
+    BeginMode2D(camera); // desenha camera
+
+    // Desenhar as plataformas com a textura
+    drawPlatforms(platforms);
+
+    // DESENHAR O PLAYER
+    drawPlayer(player);
+        
+    EndMode2D(); // termina a camera
+}
+
+void closeGame(){
+
+    CloseAudioDevice();
+    unloadEffects();
+    UnloadMusicStream(music);
+    UnloadTexture(player.playerText);
+    UnloadTexture(platforms->platformText);
+    UnloadTexture(platforms->specialPlatformText);
+
 }

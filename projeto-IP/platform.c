@@ -1,7 +1,22 @@
 #include "raylib.h"
 #include "platform.h"
 
+void initPlatforms(Platform *platforms){
+    (*platforms).platformText = LoadTexture("assets/darkBluePlatform.png");
+    (*platforms).specialPlatformText= LoadTexture("assets/blueSpecialPlatform.png");
+     
+}
 
+void drawPlatforms(Platform *platforms){
+    for (int i = 0; i < PLATFORMS_NUMBER; i++)
+        {   if(platforms[i].isSpecial){
+             DrawTexture((*platforms).specialPlatformText, platforms[i].platformHitbox.x, platforms[i].platformHitbox.y, WHITE);
+            }
+            else{
+            DrawTexture((*platforms).platformText, platforms[i].platformHitbox.x, platforms[i].platformHitbox.y, WHITE);
+            }
+        }
+}
 
 void generatePlatforms(Platform *platforms)
 {

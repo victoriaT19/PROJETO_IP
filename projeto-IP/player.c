@@ -1,8 +1,25 @@
+#include <stdio.h>
 #include "raylib.h"
 #include "player.h"
-#include "coins.h"
 #include "collision.h"
 #include "platform.h"
+
+
+const int screenWidth = 600;
+const int screenHeight = 800;
+Sound jumpSound;
+
+void initPlayer(Player *player){
+    (*player).playerText = LoadTexture("assets/player.png");
+    (*player).playerPos = (Vector2){screenWidth / 2, screenHeight / 2};
+    (*player).playerScore=0;
+
+    // Definindo a hitbox do jogador
+    (*player).playerHitbox.x = (*player).playerPos.x;
+    (*player).playerHitbox.y = (*player).playerPos.y;
+    (*player).playerHitbox.width = (*player).playerText.width;   // largura da textura
+    (*player).playerHitbox.height = (*player).playerText.height; // altura da textura
+}
 
 void drawScore(Player player){
     char Scoretext[20];
@@ -48,8 +65,13 @@ void playerJump(Player *player, Platform *platforms)
 {
     const float jumpSpeed = 18.0f; // Velocidade inicial do pulo   // Gravidade
 
-    if (playerOnPlatform(&player, platforms)  && !player->isJumping)
-    {
+    if (playerOnPlatform(&player, platforms)  && !player->isJumping){   
+
+        //efeito sonoro de pulo
+        jumpSound = LoadSound("assets/jump.mp3");
+        PlaySound(jumpSound);
+        SetSoundVolume(jumpSound, 0.5f);
+
         player->isJumping = true;
         player->playerSpeed = jumpSpeed; // Define a velocidade inicial do pulo
     }
@@ -60,6 +82,7 @@ void playerJump(Player *player, Platform *platforms)
 
         // Aplica a gravidade para diminuir a velocidade do pulo ao longo do tempo
         player->playerSpeed -= GRAVITY/5;
+        
 
         // Verifica se o jogador atingiu o ponto mais alto do pulo
         if (player->playerSpeed <= 0)
@@ -85,6 +108,12 @@ void playerPwrJump(Player *player, Platform *platforms)
     bool isOnSpecialPlatform = playerOnSpecialPlatform(&player, platforms);
 
     if (isOnSpecialPlatform && !player->isJumping) {
+
+        //efeito sonoro de pulo
+        jumpSound = LoadSound("assets/jump.mp3");
+        PlaySound(jumpSound);
+        SetSoundVolume(jumpSound, 0.5f);
+
         player->isJumping = true;
         player->playerSpeed = jumpSpeedSpecial; // Define a velocidade inicial do pulo
     }
@@ -106,7 +135,9 @@ void playerPwrJump(Player *player, Platform *platforms)
     }
 }
 
-
+void unloadEffects(){
+    UnloadSound(jumpSound);
+}
 
 
    

@@ -16,11 +16,13 @@ typedef struct
     int playerScore;
 } Player;
 
+void initPlayer(Player *player);
 void drawScore(Player player);
 void drawPlayer(Player player);
 void playerPwrJump(Player *player, Platform *platforms);
 void movePlayer(Player *player);
 void playerJump(Player *player, Platform *platforms);
+void unloadEffects();
 
 
 #endif
