@@ -32,7 +32,7 @@ void generatePlatforms(Platform *platforms)
 void CreateMovingPlatforms(Platform *platforms, int numPlatforms){
     for (int i = 0; i < numPlatforms; i++)
     {
-        if(GetRandomValue(0,100) == 13){
+        if(GetRandomValue(0,100) <20){
             platforms[i].platformSpeed.x = PLATFORM_SPEED_X;
             platforms[i].platformSpeed.y = PLATFORM_SPEED_Y;
             platforms[i].isMoving = true; 
@@ -77,4 +77,3 @@ void CreateSpecialPlatforms(Platform *platforms, int numPlatforms){
     }
     
 }
-
