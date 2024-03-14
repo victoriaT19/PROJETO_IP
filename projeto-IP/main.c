@@ -23,7 +23,6 @@ int main()
     const int screenHeight = 800;
     InitWindow(screenWidth, screenHeight, "JOGUINHO");
     SetTargetFPS(30);
-    double startTime=GetTime();
     double menuExitTime=0.0;
 
     // INICIALIZANDO PLAYER(tentar colocar em uma função depois)
@@ -48,6 +47,9 @@ int main()
     camera.rotation = 0.0f;
     camera.zoom = 1.0f;
 
+    Texture2D backgroundTexture=LoadTexture("assets/sky_day.png");
+    Texture2D menuText=LoadTexture("assets/MenuButton.png");
+    
     Button playButton;
     createButton(&playButton, 200, 300, 200, 50, GREEN, "Play");
     Button exitButton;
@@ -95,8 +97,19 @@ int main()
             BeginDrawing();
 
             ClearBackground(RAYWHITE);
-
+            //Desenha o background do menu
+            for (int x = 0; x < screenWidth; x += backgroundTexture.width)
+            {
+                for (int y = 0; y < screenHeight; y += backgroundTexture.height)
+                {
+                    DrawTexture(backgroundTexture, x, y, WHITE);
+                }
+            }
             // Desenha os botões
+            
+            DrawTexturePro(menuText, (Rectangle){ 0, 0, menuText.width, menuText.height },
+                           (Rectangle){ screenWidth / 2 - menuText.width / 4, 50, menuText.width / 2, menuText.height / 2 }, 
+                           (Vector2){ 0, 0 }, 0, BLACK);
             drawButton(&playButton);
             drawButton(&exitButton);
 
