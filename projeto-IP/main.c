@@ -24,6 +24,7 @@ int main()
     const int screenHeight = 800;
     InitWindow(screenWidth, screenHeight, "JOGUINHO");
     SetTargetFPS(30);
+    double startTime=GetTime();
 
     // INICIALIZANDO PLAYER(tentar colocar em uma função depois)
     initPlayer(&player);
@@ -92,6 +93,7 @@ int main()
         }
         else
         {
+            double currentTime=GetTime();
             // atualizar player
             movePlayer(&player);
             playerJump(&player, platforms);
@@ -167,6 +169,7 @@ void drawGame()
 
     // DESENHAR O PLAYER
     drawPlayer(player);
+    drawTimer(currentTime,startTime);
 
     EndMode2D(); // termina a camera
 }
